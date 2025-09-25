@@ -11,9 +11,12 @@ import {
   MoreHorizontal,
   User
 } from 'lucide-react';
+import DeliveryZones from './DeliveryZones';
+import DeliveryShifts from './DeliveryShifts';
+import DeliveryPayouts from './DeliveryPayouts';
 
 const DeliveryPartnerManagement = () => {
-  const [activeTab, setActiveTab] = useState('partners');
+  const [activeTab, setActiveTab] = useState('payouts');
   const [searchTerm, setSearchTerm] = useState('');
 
   const partners = [
@@ -206,6 +209,111 @@ const DeliveryPartnerManagement = () => {
     </div>
   );
 
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'partners':
+        return (
+          <>
+            {/* Search and Actions */}
+            <div className="mb-6">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <div className="flex flex-col sm:flex-row gap-3 flex-1 max-w-md">
+                  <div className="relative flex-1">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Search className="w-4 h-4 text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Search partners..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <button className="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
+                      <Filter className="w-4 h-4 mr-2" />
+                      Filters
+                    </button>
+                    <button className="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
+                      <RotateCcw className="w-4 h-4 mr-2" />
+                      Reset
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <button className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2.5 bg-green-600 rounded-lg text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Partner
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop Table */}
+            <div className="hidden lg:block bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+              <div className="bg-gray-50 border-b border-gray-200">
+                <div className="grid grid-cols-12 gap-4 px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <div className="col-span-3">Partner</div>
+                  <div className="col-span-1">Vehicle</div>
+                  <div className="col-span-1">Region</div>
+                  <div className="col-span-1">Status</div>
+                  <div className="col-span-1 text-center">Deliveries</div>
+                  <div className="col-span-1 text-center">Rating</div>
+                  <div className="col-span-2 text-center">Completion</div>
+                  <div className="col-span-2 text-center">Actions</div>
+                </div>
+              </div>
+              <div className="divide-y divide-gray-200">
+                {filteredPartners.map(partner => <PartnerRow key={partner.id} partner={partner} />)}
+              </div>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="lg:hidden bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+              <div className="divide-y divide-gray-200">
+                {filteredPartners.map(partner => <PartnerCard key={partner.id} partner={partner} />)}
+              </div>
+            </div>
+            
+            {/* Pagination */}
+            <div className="bg-white lg:bg-transparent border-t lg:border-t-0 border-gray-200 px-6 py-4 mt-6 lg:mt-4 rounded-b-lg lg:rounded-none">
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-gray-500">
+                  Showing <span className="font-medium">{filteredPartners.length}</span> of <span className="font-medium">{partners.length}</span> partners
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button className="px-3 py-1.5 text-sm font-medium text-gray-900 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    Previous
+                  </button>
+                  <button className="px-3 py-1.5 text-sm font-medium text-gray-900 bg-gray-50 border border-gray-300 rounded-md">
+                    1
+                  </button>
+                  <button className="px-3 py-1.5 text-sm font-medium text-gray-900 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>
+        );
+      case 'zones':
+        return <DeliveryZones />;
+      case 'shifts':
+        return <DeliveryShifts />;
+      case 'payouts':
+        return <DeliveryPayouts />;
+      case 'support':
+      default:
+        return (
+          <div className="text-center p-10 bg-white rounded-lg shadow-sm border border-gray-200">
+            <h3 className="text-lg font-medium text-gray-700">Content Not Available</h3>
+            <p className="text-gray-500 mt-2">The '{activeTab}' section is currently under construction.</p>
+          </div>
+        );
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="p-4 lg:p-6 max-w-7xl mx-auto">
@@ -236,87 +344,7 @@ const DeliveryPartnerManagement = () => {
           </div>
         </div>
 
-        {/* Search and Actions */}
-        <div className="mb-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div className="flex flex-col sm:flex-row gap-3 flex-1 max-w-md">
-              <div className="relative flex-1">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="w-4 h-4 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Search partners..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                />
-              </div>
-              <div className="flex gap-2">
-                <button className="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
-                  <Filter className="w-4 h-4 mr-2" />
-                  Filters
-                </button>
-                <button className="inline-flex items-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
-                  <RotateCcw className="w-4 h-4 mr-2" />
-                  Reset
-                </button>
-              </div>
-            </div>
-            <div>
-              <button className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2.5 bg-green-600 rounded-lg text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Partner
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Desktop Table */}
-        <div className="hidden lg:block bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          <div className="bg-gray-50 border-b border-gray-200">
-            <div className="grid grid-cols-12 gap-4 px-6 py-4 text-xs font-medium text-gray-500 uppercase tracking-wider">
-              <div className="col-span-3">Partner</div>
-              <div className="col-span-1">Vehicle</div>
-              <div className="col-span-1">Region</div>
-              <div className="col-span-1">Status</div>
-              <div className="col-span-1 text-center">Deliveries</div>
-              <div className="col-span-1 text-center">Rating</div>
-              <div className="col-span-2 text-center">Completion</div>
-              <div className="col-span-2 text-center">Actions</div>
-            </div>
-          </div>
-          <div className="divide-y divide-gray-200">
-            {filteredPartners.map(partner => <PartnerRow key={partner.id} partner={partner} />)}
-          </div>
-        </div>
-
-        {/* Mobile Cards */}
-        <div className="lg:hidden bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          <div className="divide-y divide-gray-200">
-            {filteredPartners.map(partner => <PartnerCard key={partner.id} partner={partner} />)}
-          </div>
-        </div>
-        
-        {/* Pagination */}
-        <div className="bg-white lg:bg-transparent border-t lg:border-t-0 border-gray-200 px-6 py-4 mt-6 lg:mt-4 rounded-b-lg lg:rounded-none">
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-500">
-              Showing <span className="font-medium">{filteredPartners.length}</span> of <span className="font-medium">{partners.length}</span> partners
-            </div>
-            <div className="flex items-center space-x-2">
-              <button className="px-3 py-1.5 text-sm font-medium text-gray-900 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
-                Previous
-              </button>
-              <button className="px-3 py-1.5 text-sm font-medium text-gray-900 bg-gray-50 border border-gray-300 rounded-md">
-                1
-              </button>
-              <button className="px-3 py-1.5 text-sm font-medium text-gray-900 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
-                Next
-              </button>
-            </div>
-          </div>
-        </div>
+        {renderContent()}
 
       </div>
     </div>
