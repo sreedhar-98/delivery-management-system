@@ -14,9 +14,10 @@ import {
 import DeliveryZones from './DeliveryZones';
 import DeliveryShifts from './DeliveryShifts';
 import DeliveryPayouts from './DeliveryPayouts';
+import DeliverySupport from './DeliverySupport';
 
 const DeliveryPartnerManagement = () => {
-  const [activeTab, setActiveTab] = useState('payouts');
+  const [activeTab, setActiveTab] = useState('support');
   const [searchTerm, setSearchTerm] = useState('');
 
   const partners = [
@@ -304,6 +305,7 @@ const DeliveryPartnerManagement = () => {
       case 'payouts':
         return <DeliveryPayouts />;
       case 'support':
+        return <DeliverySupport />;
       default:
         return (
           <div className="text-center p-10 bg-white rounded-lg shadow-sm border border-gray-200">
