@@ -133,7 +133,8 @@ const DeliveryPayouts = () => {
                 <tr key={index} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{payout.driver}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{payout.deliveries}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${payout.amount.toFixed(2)}</td>
+                  {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${payout.amount.toFixed(2)}</td> */}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${Number(payout.amount ?? 0).toFixed(2)}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{payout.period}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{payout.paymentDate}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -157,7 +158,7 @@ const DeliveryPayouts = () => {
                     <div className="flex justify-between items-start mb-3">
                         <div>
                             <p className="font-medium text-gray-900">{payout.driver}</p>
-                            <p className="text-sm text-gray-700 font-semibold">${payout.amount.toFixed(2)}</p>
+                            <p className="text-sm text-gray-700 font-semibold">${Number(payout.amount ?? 0).toFixed(2)}</p>
                         </div>
                         <span className={getStatusBadge(payout.status)}>{payout.status}</span>
                     </div>

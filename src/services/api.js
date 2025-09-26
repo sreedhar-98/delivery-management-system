@@ -15,7 +15,7 @@ const api = axios.create({
 // Request interceptor for logging and auth
 api.interceptors.request.use(
   (config) => {
-    console.log(`Making ${config.method?.toUpperCase()} request to ${config.url}`);
+    // console.log(`Making ${config.method?.toUpperCase()} request to ${config.url}`);
     return config;
   },
   (error) => {
@@ -27,7 +27,7 @@ api.interceptors.request.use(
 // Response interceptor for error handling
 api.interceptors.response.use(
   (response) => {
-    console.log(`Response received from ${response.config.url}:`, response.status);
+    // console.log(`Response received from ${response.config.url}:`, response.status);
     return response;
   },
   (error) => {

@@ -1,7 +1,6 @@
-// File: QuickActions.jsx
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Scale, UserX, Megaphone, Shield, HelpCircle } from 'lucide-react';
+import { HelpCircle, PlusCircle, AlertCircle, FileText, PauseCircle } from 'lucide-react';
 import {
   fetchQuickActions,
   selectQuickActions,
@@ -12,10 +11,10 @@ import LoadingSpinner from './common/LoadingSpinner';
 import ErrorMessage from './common/ErrorMessage';
 
 const iconMap = {
-  Scale,
-  UserX,
-  Megaphone,
-  Shield,
+  "Add New Vendor": PlusCircle,
+  "Dispatch Emergency Team": AlertCircle,
+  "Generate Payout Report": FileText,
+  "Pause All Deliveries": PauseCircle,
 };
 
 const QuickActions = () => {
@@ -28,27 +27,9 @@ const QuickActions = () => {
     dispatch(fetchQuickActions());
   }, [dispatch]);
 
-  const getIconStyle = (icon) => {
-    switch (icon) {
-      case 'Scale':
-        return { bg: 'bg-yellow-100', text: 'text-yellow-700' };
-      case 'UserX':
-        return { bg: 'bg-red-100', text: 'text-red-700' };
-      case 'Megaphone':
-        return { bg: 'bg-blue-100', text: 'text-blue-700' };
-      case 'Shield':
-        return { bg: 'bg-green-100', text: 'text-green-700' };
-      default:
-        return { bg: 'bg-gray-100', text: 'text-gray-700' };
-    }
-  };
-
   if (loading) {
     return (
-      <div
-        className="bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center"
-        style={{ minHeight: '200px' }}
-      >
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center" style={{ minHeight: '200px' }}>
         <LoadingSpinner />
       </div>
     );
@@ -56,10 +37,7 @@ const QuickActions = () => {
 
   if (error) {
     return (
-      <div
-        className="bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center"
-        style={{ minHeight: '200px' }}
-      >
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center" style={{ minHeight: '200px' }}>
         <ErrorMessage error={error} />
       </div>
     );
@@ -75,36 +53,21 @@ const QuickActions = () => {
 
       <div className="p-4 lg:p-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
-          {actions.map((action) => {
-            const Icon = iconMap[action.icon] || HelpCircle;
-
-            // Optional dev warning if icon not found
-            if (!iconMap[action.icon]) {
-              console.warn(
-                `⚠️ Unknown icon "${action.icon}" received from API. Using fallback.`
-              );
-            }
-
-            const { bg, text } = getIconStyle(action.icon);
+          {actions.map((action, index) => {
+            const Icon = iconMap[action.label] || HelpCircle;
 
             return (
               <button
-                key={action.id}
+                key={index}
+                onClick={() => window.location.href = action.action}
                 className="flex items-center p-3 lg:p-4 border border-gray-200 rounded-lg hover:border-gray-300 hover:shadow-sm transition-all"
               >
-                <div
-                  className={`w-8 h-8 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center ${bg}`}
-                >
-                  <Icon className={`w-4 h-4 lg:w-6 lg:h-6 ${text}`} />
+                <div className="w-10 h-10 flex items-center justify-center bg-gray-100 rounded-lg">
+                  <Icon className="w-6 h-6 text-gray-700" />
                 </div>
 
                 <div className="ml-3 text-left">
-                  <h4 className="text-xs lg:text-sm font-medium text-gray-900">
-                    {action.title}
-                  </h4>
-                  <p className="text-xs text-gray-500 mt-1">
-                    {action.description}
-                  </p>
+                  <h4 className="text-sm font-medium text-gray-900">{action.label}</h4>
                 </div>
               </button>
             );

@@ -196,7 +196,7 @@ const DeliveryShifts = () => {
           Weekly Schedule
         </h3>
         <div className="space-y-2 mb-4">
-          {weeklySchedule.map((item) => (
+          {Array.isArray(weeklySchedule) && weeklySchedule.map((item) => (
             <div key={item.day} className={`p-3 rounded-md border-l-4 ${item.color} bg-gray-50`}>
               <p className="font-medium text-sm text-gray-800">{item.day}</p>
               <p className="text-xs text-gray-600">{item.shifts}</p>
