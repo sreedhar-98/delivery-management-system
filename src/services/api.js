@@ -116,7 +116,10 @@ export const endpoints = {
   deliveryZones: '/deliveryZones',
   deliveryShifts: '/deliveryShifts',
   weeklySchedule: '/weeklySchedule',
-  deliveryPayouts: '/deliveryPayouts'
+  deliveryPayouts: '/deliveryPayouts',
+  supportTickets: '/supportTickets',
+  supportSummary: '/supportSummary',
+  issueTypes: '/issueTypes'
 };
 
 export default api;

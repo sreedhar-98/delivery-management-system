@@ -1,73 +1,43 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { apiService, endpoints } from '../../services/api';
+import { apiService } from '../../services/api';
 
-// Async thunks for CRUD operations
-export const fetchVendors = createAsyncThunk(
-  'vendors/fetchVendors',
-  async (params = {}, { rejectWithValue }) => {
-    try {
-      const data = await apiService.get(endpoints.vendors, params);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
+// ----------- THUNKS -----------
 
-export const createVendor = createAsyncThunk(
-  'vendors/createVendor',
-  async (vendorData, { rejectWithValue }) => {
-    try {
-      const data = await apiService.post(endpoints.vendors, vendorData);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
+// Fetch all vendors
+export const fetchVendors = createAsyncThunk('vendors/fetchVendors', async () => {
+  const response = await apiService.get('/vendors');
+  return response;
+});
 
-export const updateVendor = createAsyncThunk(
-  'vendors/updateVendor',
-  async ({ id, vendorData }, { rejectWithValue }) => {
-    try {
-      const data = await apiService.put(`${endpoints.vendors}/${id}`, vendorData);
-      return data;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
+// Create vendor
+export const createVendor = createAsyncThunk('vendors/createVendor', async (vendorData) => {
+  const response = await apiService.post('/vendors', vendorData);
+  return response;
+});
 
-export const deleteVendor = createAsyncThunk(
-  'vendors/deleteVendor',
-  async (id, { rejectWithValue }) => {
-    try {
-      await apiService.delete(`${endpoints.vendors}/${id}`);
-      return id;
-    } catch (error) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
+// Update vendor
+export const updateVendor = createAsyncThunk('vendors/updateVendor', async ({ id, vendorData }) => {
+  const response = await apiService.put(`/vendors/${id}`, vendorData);
+  return response;
+});
 
-// Initial state
-const initialState = {
-  items: [],
-  loading: false,
-  error: null,
-  searchTerm: '',
-  filters: {},
-  pagination: {
-    page: 1,
-    limit: 10,
-    total: 0
-  }
-};
+// Delete vendor
+export const deleteVendor = createAsyncThunk('vendors/deleteVendor', async (id) => {
+  await apiService.delete(`/vendors/${id}`);
+  return id;
+});
 
-// Vendors slice
+// ----------- SLICE -----------
+
 const vendorsSlice = createSlice({
   name: 'vendors',
-  initialState,
+  initialState: {
+    items: [],
+    loading: false,
+    error: null,
+    searchTerm: '',
+    filters: {},
+  },
   reducers: {
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
@@ -79,16 +49,13 @@ const vendorsSlice = createSlice({
       state.filters = {};
       state.searchTerm = '';
     },
-    setPagination: (state, action) => {
-      state.pagination = { ...state.pagination, ...action.payload };
-    },
     clearError: (state) => {
       state.error = null;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
-      // Fetch vendors
+      // Fetch
       .addCase(fetchVendors.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -96,78 +63,39 @@ const vendorsSlice = createSlice({
       .addCase(fetchVendors.fulfilled, (state, action) => {
         state.loading = false;
         state.items = action.payload;
-        state.pagination.total = action.payload.length;
       })
       .addCase(fetchVendors.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.error.message;
       })
-      
-      // Create vendor
-      .addCase(createVendor.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      // Create
       .addCase(createVendor.fulfilled, (state, action) => {
-        state.loading = false;
         state.items.push(action.payload);
       })
-      .addCase(createVendor.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      
-      // Update vendor
-      .addCase(updateVendor.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      // Update
       .addCase(updateVendor.fulfilled, (state, action) => {
-        state.loading = false;
-        const index = state.items.findIndex(item => item.id === action.payload.id);
+        const index = state.items.findIndex((v) => v.id === action.payload.id);
         if (index !== -1) {
           state.items[index] = action.payload;
         }
       })
-      .addCase(updateVendor.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      
-      // Delete vendor
-      .addCase(deleteVendor.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+      // Delete
       .addCase(deleteVendor.fulfilled, (state, action) => {
-        state.loading = false;
-        state.items = state.items.filter(item => item.id !== action.payload);
-      })
-      .addCase(deleteVendor.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.items = state.items.filter((v) => v.id !== action.payload);
       });
-  }
+  },
 });
 
-// Export actions
-export const { 
-  setSearchTerm, 
-  setFilters, 
-  clearFilters, 
-  setPagination, 
-  clearError 
-} = vendorsSlice.actions;
+// ----------- EXPORTS -----------
 
-// Selectors
+export const { setSearchTerm, setFilters, clearFilters, clearError } = vendorsSlice.actions;
+
 export const selectVendors = (state) => state.vendors.items;
 export const selectVendorsLoading = (state) => state.vendors.loading;
 export const selectVendorsError = (state) => state.vendors.error;
 export const selectVendorsSearchTerm = (state) => state.vendors.searchTerm;
 export const selectVendorsFilters = (state) => state.vendors.filters;
-export const selectVendorsPagination = (state) => state.vendors.pagination;
 
-// Filtered vendors selector
 export const selectFilteredVendors = (state) => {
   const vendors = selectVendors(state);
   const searchTerm = selectVendorsSearchTerm(state);
@@ -175,22 +103,16 @@ export const selectFilteredVendors = (state) => {
 
   let filteredVendors = vendors;
 
-  // Apply search filter
   if (searchTerm) {
-    filteredVendors = filteredVendors.filter(vendor =>
-      vendor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      vendor.category.toLowerCase().includes(searchTerm.toLowerCase())
+    filteredVendors = filteredVendors.filter(
+      (vendor) =>
+        vendor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        vendor.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }
 
-  // Apply status filter
   if (filters.status) {
-    filteredVendors = filteredVendors.filter(vendor => vendor.status === filters.status);
-  }
-
-  // Apply category filter
-  if (filters.category) {
-    filteredVendors = filteredVendors.filter(vendor => vendor.category === filters.category);
+    filteredVendors = filteredVendors.filter((vendor) => vendor.status === filters.status);
   }
 
   return filteredVendors;

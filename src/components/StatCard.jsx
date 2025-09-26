@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ShoppingCart, Users, DollarSign, Truck } from 'lucide-react';
-import { fetchStats, selectStats, selectStatsLoading, selectStatsError } from '../../store/slices/statsSlice';
-import LoadingSpinner from '../common/LoadingSpinner';
-import ErrorMessage from '../common/ErrorMessage';
+import { fetchStats, selectStats, selectStatsLoading, selectStatsError } from '../store/slices/statsSlice';
+import LoadingSpinner from './common/LoadingSpinner';
+import ErrorMessage from './common/ErrorMessage';
 
 const iconMap = {
   ShoppingCart,

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { 
   Search, 
   Filter, 
@@ -12,132 +13,20 @@ import {
   X,
   Eye
 } from 'lucide-react';
+import { fetchVendors, selectVendors, selectVendorsLoading, selectVendorsError } from '../store/slices/vendorsSlice';
+import LoadingSpinner from './common/LoadingSpinner';
+import ErrorMessage from './common/ErrorMessage';
 
 const VendorManagement = () => {
+  const dispatch = useDispatch();
+  const vendors = useSelector(selectVendors);
+  const loading = useSelector(selectVendorsLoading);
+  const error = useSelector(selectVendorsError);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const vendors = [
-    {
-      id: 1,
-      name: 'Fresh Groceries Inc.',
-      category: 'Groceries',
-      rating: 4.8,
-      status: 'active',
-      description: 'Fresh produce and grocery items delivered to your door',
-      products: 128,
-      orders: 523,
-      since: 'Dec',
-      address: '500 Market St, New York, NY',
-      phone: '+1 (555) 111-2222',
-      email: 'contact@freshgroceries.example',
-      compliance: {
-        hygieneCertification: true,
-        deliveryReadiness: true,
-        taxDocuments: true,
-        qualityCheck: true
-      }
-    },
-    {
-      id: 2,
-      name: 'Meat Market',
-      category: 'Meat',
-      rating: 4.6,
-      status: 'active',
-      description: 'Premium quality meats from trusted sources',
-      products: 64,
-      orders: 312,
-      since: 'Jan',
-      address: '300 Butcher Ln, Chicago, IL',
-      phone: '+1 (555) 222-3333',
-      email: 'info@meatmarket.example',
-      compliance: {
-        hygieneCertification: true,
-        deliveryReadiness: true,
-        taxDocuments: true,
-        qualityCheck: false
-      }
-    },
-    {
-      id: 3,
-      name: 'Quick Bites',
-      category: 'Takeaway',
-      rating: 4.2,
-      status: 'inactive',
-      description: 'Fast food delivered quickly',
-      products: 42,
-      orders: 189,
-      since: 'Feb',
-      address: '700 Fast Food Ave, Los Angeles, CA',
-      phone: '+1 (555) 333-4444',
-      email: 'orders@quickbites.example',
-      compliance: {
-        hygieneCertification: true,
-        deliveryReadiness: false,
-        taxDocuments: true,
-        qualityCheck: false
-      }
-    },
-    {
-      id: 4,
-      name: 'Organic Delights',
-      category: 'Groceries',
-      rating: 4.9,
-      status: 'active',
-      description: '100% organic produce and grocery items',
-      products: 95,
-      orders: 256,
-      since: 'Mar',
-      address: '800 Green St, Seattle, WA',
-      phone: '+1 (555) 444-5555',
-      email: 'hello@organicdelights.example',
-      compliance: {
-        hygieneCertification: true,
-        deliveryReadiness: true,
-        taxDocuments: true,
-        qualityCheck: true
-      }
-    },
-    {
-      id: 5,
-      name: 'Seafood Express',
-      category: 'Seafood',
-      rating: 4.5,
-      status: 'pending',
-      description: 'Fresh seafood delivered daily',
-      products: 38,
-      orders: 142,
-      since: 'Apr',
-      address: '200 Ocean Dr, Miami, FL',
-      phone: '+1 (555) 555-6666',
-      email: 'orders@seafoodexpress.example',
-      compliance: {
-        hygieneCertification: false,
-        deliveryReadiness: true,
-        taxDocuments: false,
-        qualityCheck: false
-      }
-    },
-    {
-      id: 6,
-      name: 'Sweet Treats Bakery',
-      category: 'Bakery',
-      rating: 4.7,
-      status: 'active',
-      description: 'Freshly baked goods and desserts',
-      products: 72,
-      orders: 201,
-      since: 'Mar',
-      address: '150 Baker St, New York, NY',
-      phone: '+1 (555) 666-7777',
-      email: 'info@sweettreats.example',
-      compliance: {
-        hygieneCertification: true,
-        deliveryReadiness: true,
-        taxDocuments: true,
-        qualityCheck: true
-      }
-    }
-  ];
+  useEffect(() => {
+    dispatch(fetchVendors());
+  }, [dispatch]);
 
   const getStatusBadge = (status) => {
     const baseClasses = "px-2.5 py-1 rounded-full text-xs font-medium";
@@ -184,6 +73,14 @@ const VendorManagement = () => {
       </div>
     </div>
   );
+
+  if (loading) {
+    return <div className="text-center p-10"><LoadingSpinner /></div>;
+  }
+
+  if (error) {
+    return <div className="text-center p-10"><ErrorMessage error={error} /></div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">

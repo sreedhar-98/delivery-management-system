@@ -34,7 +34,12 @@ const chartSlice = createSlice({
       })
       .addCase(fetchChartData.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload;
+        const payload = action.payload || {};
+
+        state.data = {
+          categories: Array.isArray(payload.categories) ? payload.categories : [],
+          series: Array.isArray(payload.series) ? payload.series : [],
+        };
       })
       .addCase(fetchChartData.rejected, (state, action) => {
         state.loading = false;

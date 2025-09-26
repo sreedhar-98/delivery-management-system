@@ -35,17 +35,16 @@
     {
       "id": 1,
       "name": "Fresh Groceries Inc.",
-      "email": "contact@freshgroceries.example",
-      "region": "New York",
-      "status": "active",
-      "products": 128,
-      "orders": 523,
       "category": "Groceries",
       "rating": 4.8,
+      "status": "active",
       "description": "Fresh produce and grocery items delivered to your door",
+      "products": 128,
+      "orders": 523,
       "since": "Dec",
       "address": "500 Market St, New York, NY",
       "phone": "+1 (555) 111-2222",
+      "email": "contact@freshgroceries.example",
       "compliance": {
         "hygieneCertification": true,
         "deliveryReadiness": true,
@@ -54,22 +53,101 @@
       }
     },
     {
+      "id": 2,
+      "name": "Meat Market",
+      "category": "Meat",
+      "rating": 4.6,
+      "status": "active",
+      "description": "Premium quality meats from trusted sources",
+      "products": 64,
+      "orders": 312,
+      "since": "Jan",
+      "address": "300 Butcher Ln, Chicago, IL",
+      "phone": "+1 (555) 222-3333",
+      "email": "info@meatmarket.example",
+      "compliance": {
+        "hygieneCertification": true,
+        "deliveryReadiness": true,
+        "taxDocuments": true,
+        "qualityCheck": false
+      }
+    },
+    {
       "id": 3,
       "name": "Quick Bites",
-      "email": "orders@quickbites.example",
-      "region": "Los Angeles",
+      "category": "Takeaway",
+      "rating": 4.2,
       "status": "inactive",
+      "description": "Fast food delivered quickly",
       "products": 42,
       "orders": 189,
-      "category": "Restaurant",
-      "rating": 4.5,
-      "description": "Quick and delicious meals for every taste",
-      "since": "Mar",
-      "address": "100 Foodie Ave, Los Angeles, CA",
-      "phone": "+1 (555) 444-5555",
+      "since": "Feb",
+      "address": "700 Fast Food Ave, Los Angeles, CA",
+      "phone": "+1 (555) 333-4444",
+      "email": "orders@quickbites.example",
       "compliance": {
         "hygieneCertification": true,
         "deliveryReadiness": false,
+        "taxDocuments": true,
+        "qualityCheck": false
+      }
+    },
+    {
+      "id": 4,
+      "name": "Organic Delights",
+      "category": "Groceries",
+      "rating": 4.9,
+      "status": "active",
+      "description": "100% organic produce and grocery items",
+      "products": 95,
+      "orders": 256,
+      "since": "Mar",
+      "address": "800 Green St, Seattle, WA",
+      "phone": "+1 (555) 444-5555",
+      "email": "hello@organicdelights.example",
+      "compliance": {
+        "hygieneCertification": true,
+        "deliveryReadiness": true,
+        "taxDocuments": true,
+        "qualityCheck": true
+      }
+    },
+    {
+      "id": 5,
+      "name": "Seafood Express",
+      "category": "Seafood",
+      "rating": 4.5,
+      "status": "pending",
+      "description": "Fresh seafood delivered daily",
+      "products": 38,
+      "orders": 142,
+      "since": "Apr",
+      "address": "200 Ocean Dr, Miami, FL",
+      "phone": "+1 (555) 555-6666",
+      "email": "orders@seafoodexpress.example",
+      "compliance": {
+        "hygieneCertification": false,
+        "deliveryReadiness": true,
+        "taxDocuments": false,
+        "qualityCheck": false
+      }
+    },
+    {
+      "id": 6,
+      "name": "Sweet Treats Bakery",
+      "category": "Bakery",
+      "rating": 4.7,
+      "status": "active",
+      "description": "Freshly baked goods and desserts",
+      "products": 72,
+      "orders": 201,
+      "since": "Mar",
+      "address": "150 Baker St, New York, NY",
+      "phone": "+1 (555) 666-7777",
+      "email": "info@sweettreats.example",
+      "compliance": {
+        "hygieneCertification": true,
+        "deliveryReadiness": true,
         "taxDocuments": true,
         "qualityCheck": true
       }
@@ -146,6 +224,13 @@
     { "id": "SHIFT-1006", "driver": "David Martinez", "date": "Jun 14, 2023", "time": "09:00 AM - 05:00 PM", "zone": "Manhattan", "status": "completed" },
     { "id": "SHIFT-1007", "driver": "Maria Rodriguez", "date": "Jun 14, 2023", "time": "11:00 AM - 07:00 PM", "zone": "Miami Beach", "status": "completed" }
   ],
+    "deliveryZones": [
+    { "name": "Manhattan Downtown", "orders": 120, "drivers": 15, "routes": 8, "color": "#4CAF50" },
+    { "name": "Brooklyn Heights", "orders": 85, "drivers": 10, "routes": 6, "color": "#2196F3" },
+    { "name": "Queens Central", "orders": 95, "drivers": 12, "routes": 7, "color": "#FFC107" },
+    { "name": "Bronx North", "orders": 70, "drivers": 8, "routes": 5, "color": "#9C27B0" },
+    { "name": "Staten Island", "orders": 45, "drivers": 5, "routes": 4, "color": "#F44336" }
+  ],
   "supportTickets": [
     { "id": "TICKET-1001", "driver": "David Martinez", "issue": "App not showing delivery details", "type": "Technical", "status": "open", "priority": "high", "created": "Jun 14, 2023, 10:23 AM" },
     { "id": "TICKET-1002", "driver": "Jessica Lee", "issue": "Customer gave wrong address", "type": "Delivery", "status": "pending", "priority": "medium", "created": "Jun 13, 2023, 3:45 PM" },
@@ -164,5 +249,52 @@
     { "name": "Delivery", "percentage": 30, "color": "bg-blue-500" },
     { "name": "Payment", "percentage": 15, "color": "bg-green-500" },
     { "name": "Schedule", "percentage": 10, "color": "bg-purple-500" }
+  ],
+  "stats": [
+    { "label": "Total Revenue", "value": "$48,230", "change": "+12%", "changeType": "positive" },
+    { "label": "Active Orders", "value": "1,280", "change": "-5%", "changeType": "negative" },
+    { "label": "New Customers", "value": "320", "change": "+20%", "changeType": "positive" },
+    { "label": "Partner Payouts", "value": "$12,500", "change": "+8%", "changeType": "positive" }
+  ],
+  "platformPerformance": {
+    "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    "datasets": [
+      {
+        "label": "Revenue",
+        "data": [5000, 5500, 6200, 6800, 7500, 8200],
+        "borderColor": "#4CAF50"
+      },
+      {
+        "label": "Orders",
+        "data": [120, 130, 145, 160, 180, 200],
+        "borderColor": "#2196F3"
+      }
+    ]
+  },
+  "alerts": [
+    { "id": 1, "message": "New high-priority order #ORD-1239 received.", "type": "new_order" },
+    { "id": 2, "message": "Delivery partner David M. is running 15 minutes late.", "type": "delay" },
+    { "id": 3, "message": "Vendor 'Quick Bites' has paused new orders.", "type": "vendor_status" }
+  ],
+  "quickActions": [
+    { "label": "Add New Vendor", "action": "/vendors/new" },
+    { "label": "Dispatch Emergency Team", "action": "/dispatch/emergency" },
+    { "label": "Generate Payout Report", "action": "/reports/payouts" },
+    { "label": "Pause All Deliveries", "action": "/deliveries/pause" }
+  ],
+  "weeklySchedule": {
+    "labels": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    "datasets": [
+      {
+        "label": "Shifts",
+        "data": [15, 18, 22, 20, 25, 28, 12],
+        "backgroundColor": "#4CAF50"
+      }
+    ]
+  },
+  "deliveryPayouts": [
+    { "id": "PAY-1001", "driver": "David Martinez", "amount": "$550.00", "date": "Jun 10, 2023", "status": "paid" },
+    { "id": "PAY-1002", "driver": "Jessica Lee", "amount": "$620.00", "date": "Jun 10, 2023", "status": "paid" },
+    { "id": "PAY-1003", "driver": "Maria Rodriguez", "amount": "$480.00", "date": "Jun 10, 2023", "status": "pending" }
   ]
 }

@@ -17,11 +17,11 @@ import {
   setSearchTerm,
   setFilters,
   clearFilters,
-  clearError,
+  selectVendorsSearchTerm,
   selectFilteredVendors,
   selectVendorsLoading,
   selectVendorsError,
-  selectVendorsSearchTerm
+  clearError
 } from '../store/slices/vendorsSlice';
 import LoadingSpinner from './common/LoadingSpinner';
 import ErrorMessage from './common/ErrorMessage';
@@ -59,6 +59,7 @@ const VendorsTable = () => {
 
   const handleClearFilters = () => {
     dispatch(clearFilters());
+    dispatch(clearError());
   };
 
   const handleSubmit = async (e) => {
