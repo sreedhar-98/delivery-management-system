@@ -21,45 +21,13 @@ const Sidebar = ({ activeItem, setActiveItem, sidebarOpen, closeSidebar }) => {
 
   const handleMenuClick = (itemId) => {
     setActiveItem(itemId);
-    // Close sidebar on mobile after selecting item
-    if (window.innerWidth < 1024) {
-      closeSidebar();
-    }
+    closeSidebar();
   };
 
   return (
     <>
-      {/* Desktop Sidebar */}
-      <div className="hidden lg:flex w-64 bg-indigo-800 h-full flex-col">
-        <div className="p-4 border-b border-indigo-700">
-          <h1 className="text-white text-xl font-bold">Delivrry Admin</h1>
-        </div>
-        
-        <nav className="flex-1 p-2 space-y-1">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = item.id === activeItem;
-            
-            return (
-              <button
-                key={item.id}
-                onClick={() => setActiveItem(item.id)}
-                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                  isActive 
-                    ? 'bg-indigo-600 text-white' 
-                    : 'text-gray-300 hover:bg-indigo-700 hover:text-white'
-                }`}
-              >
-                <Icon className="w-5 h-5" />
-                <span>{item.label}</span>
-              </button>
-            );
-          })}
-        </nav>
-      </div>
-
-      {/* Mobile Sidebar */}
-      <div className={`lg:hidden fixed inset-y-0 left-0 z-50 w-64 bg-indigo-800 transform transition-transform duration-300 ease-in-out ${
+      {/* Unified Sidebar for all screen sizes */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-indigo-800 transform transition-transform duration-300 ease-in-out ${
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         <div className="p-4 border-b border-indigo-700 flex items-center justify-between">
