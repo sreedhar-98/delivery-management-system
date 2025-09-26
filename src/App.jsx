@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ShoppingCart, Users, DollarSign, Truck } from 'lucide-react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
