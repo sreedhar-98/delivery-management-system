@@ -109,7 +109,14 @@ export const endpoints = {
   vendors: '/vendors',
   deliveryPartners: '/deliveryPartners',
   orders: '/orders',
-  stats: '/stats'
+  stats: '/stats',
+  platformPerformance: '/platformPerformance',
+  alerts: '/alerts',
+  quickActions: '/quickActions',
+  deliveryZones: '/deliveryZones',
+  deliveryShifts: '/deliveryShifts',
+  weeklySchedule: '/weeklySchedule',
+  deliveryPayouts: '/deliveryPayouts'
 };
 
 export default api;

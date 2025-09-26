@@ -54,24 +54,24 @@
       }
     },
     {
-      "id": 2,
-      "name": "Meat Market",
-      "email": "info@meatmarket.example",
-      "region": "Chicago",
-      "status": "active",
-      "products": 64,
-      "orders": 312,
-      "category": "Meat",
-      "rating": 4.6,
-      "description": "Premium quality meats from trusted sources",
-      "since": "Jan",
-      "address": "300 Butcher Ln, Chicago, IL",
-      "phone": "+1 (555) 222-3333",
+      "id": 3,
+      "name": "Quick Bites",
+      "email": "orders@quickbites.example",
+      "region": "Los Angeles",
+      "status": "inactive",
+      "products": 42,
+      "orders": 189,
+      "category": "Restaurant",
+      "rating": 4.5,
+      "description": "Quick and delicious meals for every taste",
+      "since": "Mar",
+      "address": "100 Foodie Ave, Los Angeles, CA",
+      "phone": "+1 (555) 444-5555",
       "compliance": {
         "hygieneCertification": true,
-        "deliveryReadiness": true,
+        "deliveryReadiness": false,
         "taxDocuments": true,
-        "qualityCheck": false
+        "qualityCheck": true
       }
     }
   ],
@@ -88,15 +88,15 @@
       "completion": 96
     },
     {
-      "id": 2,
-      "name": "Jessica Lee",
-      "email": "jessica.l@example.com",
-      "vehicle": "Scooter",
-      "region": "Los Angeles",
-      "status": "active",
-      "deliveries": 65,
-      "rating": 4.9,
-      "completion": 98
+      "id": 3,
+      "name": "Kevin Wilson",
+      "email": "kevin.w@example.com",
+      "vehicle": "Bike",
+      "region": "Chicago",
+      "status": "pending",
+      "deliveries": 0,
+      "rating": 0,
+      "completion": 0
     }
   ],
   "orders": [
@@ -110,43 +110,59 @@
       "total": "$45.99"
     },
     {
-      "id": "ORD-1235",
-      "customer": "Emily Johnson",
-      "category": "Meat",
-      "vendor": "Meat Market",
-      "status": "in-transit",
-      "date": "Jun 15, 2023, 3:15 PM",
-      "total": "$32.50"
+      "id": "ORD-1236",
+      "customer": "Sarah Williams",
+      "category": "Takeaway",
+      "vendor": "Quick Bites",
+      "status": "processing",
+      "date": "Jun 15, 2023, 4:00 PM",
+      "total": "$18.75"
+    },
+    {
+      "id": "ORD-1237",
+      "customer": "Robert Chen",
+      "category": "Groceries",
+      "vendor": "Fresh Groceries",
+      "status": "cancelled",
+      "date": "Jun 15, 2023, 1:30 PM",
+      "total": "$29.99"
+    },
+    {
+      "id": "ORD-1238",
+      "customer": "Michael Brown",
+      "category": "Takeaway",
+      "vendor": "Quick Bites",
+      "status": "processing",
+      "date": "Jun 15, 2023, 4:30 PM",
+      "total": "$24.50"
     }
   ],
-  "stats": [
-    {
-      "id": 1,
-      "title": "Total Orders",
-      "value": "2,543",
-      "change": "+12%",
-      "icon": "ShoppingCart"
-    },
-    {
-      "id": 2,
-      "title": "Active Users",
-      "value": "42,853",
-      "change": "+8%",
-      "icon": "Users"
-    },
-    {
-      "id": 3,
-      "title": "Revenue",
-      "value": "$38,492",
-      "change": "+7.2%",
-      "icon": "DollarSign"
-    },
-    {
-      "id": 4,
-      "title": "Delivery Success",
-      "value": "98.3%",
-      "change": "+1.2%",
-      "icon": "Truck"
-    }
+  "deliveryShifts": [
+    { "id": "SHIFT-1001", "driver": "David Martinez", "date": "Jun 15, 2023", "time": "09:00 AM - 05:00 PM", "zone": "Manhattan", "status": "scheduled" },
+    { "id": "SHIFT-1002", "driver": "Jessica Lee", "date": "Jun 15, 2023", "time": "10:00 AM - 06:00 PM", "zone": "Hollywood", "status": "active" },
+    { "id": "SHIFT-1003", "driver": "Maria Rodriguez", "date": "Jun 15, 2023", "time": "11:00 AM - 07:00 PM", "zone": "Downtown Miami", "status": "active" },
+    { "id": "SHIFT-1004", "driver": "David Martinez", "date": "Jun 16, 2023", "time": "09:00 AM - 05:00 PM", "zone": "Brooklyn", "status": "scheduled" },
+    { "id": "SHIFT-1005", "driver": "Jessica Lee", "date": "Jun 16, 2023", "time": "10:00 AM - 06:00 PM", "zone": "Downtown LA", "status": "scheduled" },
+    { "id": "SHIFT-1006", "driver": "David Martinez", "date": "Jun 14, 2023", "time": "09:00 AM - 05:00 PM", "zone": "Manhattan", "status": "completed" },
+    { "id": "SHIFT-1007", "driver": "Maria Rodriguez", "date": "Jun 14, 2023", "time": "11:00 AM - 07:00 PM", "zone": "Miami Beach", "status": "completed" }
+  ],
+  "supportTickets": [
+    { "id": "TICKET-1001", "driver": "David Martinez", "issue": "App not showing delivery details", "type": "Technical", "status": "open", "priority": "high", "created": "Jun 14, 2023, 10:23 AM" },
+    { "id": "TICKET-1002", "driver": "Jessica Lee", "issue": "Customer gave wrong address", "type": "Delivery", "status": "pending", "priority": "medium", "created": "Jun 13, 2023, 3:45 PM" },
+    { "id": "TICKET-1003", "driver": "Maria Rodriguez", "issue": "Payment not received for June 10 shifts", "type": "Payment", "status": "resolved", "priority": "high", "created": "Jun 12, 2023, 5:30 PM" },
+    { "id": "TICKET-1004", "driver": "David Martinez", "issue": "Unable to mark delivery as completed", "type": "Technical", "status": "open", "priority": "high", "created": "Jun 14, 2023, 2:15 PM" },
+    { "id": "TICKET-1005", "driver": "James Johnson", "issue": "Request for more shifts", "type": "Schedule", "status": "pending", "priority": "low", "created": "Jun 13, 2023, 11:30 AM" }
+  ],
+  "supportSummary": [
+    { "label": "Open Tickets", "value": 3, "color": "red" },
+    { "label": "Pending", "value": 5, "color": "yellow" },
+    { "label": "Resolved Today", "value": 12, "color": "green" },
+    { "label": "Total Active", "value": 24, "color": "blue" }
+  ],
+  "issueTypes": [
+    { "name": "Technical", "percentage": 45, "color": "bg-red-500" },
+    { "name": "Delivery", "percentage": 30, "color": "bg-blue-500" },
+    { "name": "Payment", "percentage": 15, "color": "bg-green-500" },
+    { "name": "Schedule", "percentage": 10, "color": "bg-purple-500" }
   ]
 }

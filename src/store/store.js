@@ -3,7 +3,7 @@ import usersReducer from './slices/usersSlice';
 import vendorsReducer from './slices/vendorsSlice';
 import deliveryPartnersReducer from './slices/deliveryPartnersSlice';
 import ordersReducer from './slices/ordersSlice';
-import statsReducer from './slices/statsSlice';
+import deliveryPayoutsReducer from './slices/deliveryPayoutsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +12,12 @@ export const store = configureStore({
     deliveryPartners: deliveryPartnersReducer,
     orders: ordersReducer,
     stats: statsReducer,
+    chart: chartReducer,
+    alerts: alertsReducer,
+    quickActions: quickActionsReducer,
+    deliveryZones: deliveryZonesReducer,
+    deliveryShifts: deliveryShiftsReducer,
+    deliveryPayouts: deliveryPayoutsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

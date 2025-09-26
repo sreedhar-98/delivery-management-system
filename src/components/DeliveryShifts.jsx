@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { 
   Search, 
   Filter, 
@@ -10,26 +11,16 @@ import {
   Calendar,
   MoreHorizontal
 } from 'lucide-react';
-
-const shifts = [
-  { id: 'SHIFT-1001', driver: 'David Martinez', date: 'Jun 15, 2023', time: '09:00 AM - 05:00 PM', zone: 'Manhattan', status: 'scheduled' },
-  { id: 'SHIFT-1002', driver: 'Jessica Lee', date: 'Jun 15, 2023', time: '10:00 AM - 06:00 PM', zone: 'Hollywood', status: 'active' },
-  { id: 'SHIFT-1003', driver: 'Maria Rodriguez', date: 'Jun 15, 2023', time: '11:00 AM - 07:00 PM', zone: 'Downtown Miami', status: 'active' },
-  { id: 'SHIFT-1004', driver: 'David Martinez', date: 'Jun 16, 2023', time: '09:00 AM - 05:00 PM', zone: 'Brooklyn', status: 'scheduled' },
-  { id: 'SHIFT-1005', driver: 'Jessica Lee', date: 'Jun 16, 2023', time: '10:00 AM - 06:00 PM', zone: 'Downtown LA', status: 'scheduled' },
-  { id: 'SHIFT-1006', driver: 'David Martinez', date: 'Jun 14, 2023', time: '09:00 AM - 05:00 PM', zone: 'Manhattan', status: 'completed' },
-  { id: 'SHIFT-1007', driver: 'Maria Rodriguez', date: 'Jun 14, 2023', time: '11:00 AM - 07:00 PM', zone: 'Miami Beach', status: 'completed' },
-];
-
-const weeklySchedule = [
-    { day: 'Monday, Jun 19', shifts: '3 shifts scheduled', color: 'border-green-500' },
-    { day: 'Tuesday, Jun 20', shifts: '2 shifts scheduled', color: 'border-green-500' },
-    { day: 'Wednesday, Jun 21', shifts: '4 shifts scheduled', color: 'border-yellow-400' },
-    { day: 'Thursday, Jun 22', shifts: '1 shift scheduled', color: 'border-yellow-400' },
-    { day: 'Friday, Jun 23', shifts: 'No shifts scheduled', color: 'border-red-500' },
-    { day: 'Saturday, Jun 24', shifts: '2 shifts scheduled', color: 'border-green-500' },
-    { day: 'Sunday, Jun 25', shifts: '3 shifts scheduled', color: 'border-green-500' },
-];
+import { 
+  fetchDeliveryShifts, 
+  fetchWeeklySchedule, 
+  selectDeliveryShifts, 
+  selectWeeklySchedule, 
+  selectDeliveryShiftsLoading, 
+  selectDeliveryShiftsError 
+} from '../store/slices/deliveryShiftsSlice';
+import LoadingSpinner from './common/LoadingSpinner';
+import ErrorMessage from './common/ErrorMessage';
 
 const getStatusBadge = (status) => {
   const baseClasses = "px-2.5 py-1 rounded-full text-xs font-medium capitalize";
@@ -66,7 +57,17 @@ const ShiftActions = ({ status }) => {
 };
 
 const DeliveryShifts = () => {
+  const dispatch = useDispatch();
+  const shifts = useSelector(selectDeliveryShifts);
+  const weeklySchedule = useSelector(selectWeeklySchedule);
+  const loading = useSelector(selectDeliveryShiftsLoading);
+  const error = useSelector(selectDeliveryShiftsError);
   const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    dispatch(fetchDeliveryShifts());
+    dispatch(fetchWeeklySchedule());
+  }, [dispatch]);
 
   const filteredShifts = shifts.filter(shift =>
     Object.values(shift).some(val =>
@@ -74,11 +75,17 @@ const DeliveryShifts = () => {
     )
   );
 
+  if (loading) {
+    return <div className="text-center p-10"><LoadingSpinner /></div>;
+  }
+
+  if (error) {
+    return <div className="text-center p-10"><ErrorMessage error={error} /></div>;
+  }
+
   return (
     <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-      {/* Main Content */}
       <div className="xl:col-span-2">
-        {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
           <h2 className="text-lg font-semibold text-gray-900 mb-3 md:mb-0">Shift Scheduler</h2>
           <button className="inline-flex items-center px-4 py-2.5 bg-green-600 rounded-lg text-sm font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
@@ -87,7 +94,6 @@ const DeliveryShifts = () => {
           </button>
         </div>
 
-        {/* Search and Filters */}
         <div className="mb-6">
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
@@ -115,7 +121,6 @@ const DeliveryShifts = () => {
           </div>
         </div>
 
-        {/* Desktop Table */}
         <div className="hidden lg:block bg-white rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -149,7 +154,6 @@ const DeliveryShifts = () => {
           </table>
         </div>
 
-        {/* Mobile Cards */}
         <div className="lg:hidden grid grid-cols-1 gap-4">
             {filteredShifts.map((shift) => (
                 <div key={shift.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
@@ -174,7 +178,6 @@ const DeliveryShifts = () => {
             ))}
         </div>
 
-        {/* Pagination */}
         <div className="bg-white lg:bg-transparent rounded-b-lg border-t lg:border-none border-gray-200 px-4 py-3 mt-4 flex items-center justify-between">
           <div className="text-sm text-gray-700">
             Showing <span className="font-medium">{filteredShifts.length}</span> of <span className="font-medium">{shifts.length}</span> shifts
@@ -187,7 +190,6 @@ const DeliveryShifts = () => {
         </div>
       </div>
 
-      {/* Right Sidebar */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 h-fit">
         <h3 className="text-base font-semibold text-gray-900 mb-4 flex items-center">
           <Calendar className="w-5 h-5 mr-2 text-gray-500" />

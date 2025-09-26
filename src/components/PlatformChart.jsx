@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ReactECharts from 'echarts-for-react';
+import { fetchChartData, selectChartData, selectChartLoading, selectChartError } from '../store/slices/chartSlice';
+import LoadingSpinner from './common/LoadingSpinner';
+import ErrorMessage from './common/ErrorMessage';
 
 const PlatformChart = () => {
+  const dispatch = useDispatch();
+  const chartData = useSelector(selectChartData);
+  const loading = useSelector(selectChartLoading);
+  const error = useSelector(selectChartError);
+
+  useEffect(() => {
+    dispatch(fetchChartData());
+  }, [dispatch]);
+
   const option = {
     grid: {
       top: '10%',
@@ -12,7 +25,7 @@ const PlatformChart = () => {
     },
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: chartData.categories,
       axisLine: {
         lineStyle: {
           color: '#CCCCCC',
@@ -49,69 +62,34 @@ const PlatformChart = () => {
         }
       }
     },
-    series: [
-      {
-        name: 'Orders',
-        type: 'line',
-        data: [4200, 5800, 7200, 8100, 9500, 11200, 10800],
-        smooth: true,
-        lineStyle: {
-          color: '#8884D8',
-          width: 2
-        },
-        areaStyle: {
-          color: 'rgba(136, 132, 216, 0.6)'
-        },
-        symbol: 'none'
-      },
-      {
-        name: 'Revenue',
-        type: 'line',
-        data: [2800, 4200, 5600, 6300, 7800, 9100, 8700],
-        smooth: true,
-        lineStyle: {
-          color: '#82CA9D',
-          width: 2
-        },
-        areaStyle: {
-          color: 'rgba(130, 202, 157, 0.6)'
-        },
-        symbol: 'none'
-      },
-      {
-        name: 'Users',
-        type: 'line',
-        data: [1200, 1800, 2400, 2700, 3200, 3800, 3600],
-        smooth: true,
-        lineStyle: {
-          color: '#FFC658',
-          width: 2
-        },
-        areaStyle: {
-          color: 'rgba(255, 198, 88, 0.6)'
-        },
-        symbol: 'none'
-      }
-    ],
+    series: chartData.series.map(s => ({
+      ...s,
+      type: 'line',
+      smooth: true,
+      symbol: 'none'
+    })),
     legend: {
       bottom: 0,
       left: 'center',
-      data: [
-        {
-          name: 'orders',
-          textStyle: { color: '#8884D8' }
-        },
-        {
-          name: 'revenue',
-          textStyle: { color: '#82CA9D' }
-        },
-        {
-          name: 'users',
-          textStyle: { color: '#FFC658' }
-        }
-      ]
+      data: chartData.series.map(s => s.name)
     }
   };
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center" style={{ height: '320px' }}>
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center" style={{ height: '320px' }}>
+        <ErrorMessage error={error} />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">

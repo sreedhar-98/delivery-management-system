@@ -1,45 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { AlertTriangle, AlertCircle, Info, X } from 'lucide-react';
+import { fetchAlerts, selectAlerts, selectAlertsLoading, selectAlertsError } from '../store/slices/alertsSlice';
+import LoadingSpinner from './common/LoadingSpinner';
+import ErrorMessage from './common/ErrorMessage';
+
+const iconMap = {
+  error: AlertTriangle,
+  warning: AlertCircle,
+  info: Info,
+};
 
 const AlertsPanel = () => {
-  const alerts = [
-    {
-      id: 1,
-      type: 'error',
-      icon: AlertTriangle,
-      iconColor: 'text-red-600',
-      message: 'Failed delivery: Order #38291 - Driver reported address issue',
-      time: '10 minutes ago',
-      bgColor: 'bg-red-50'
-    },
-    {
-      id: 2,
-      type: 'warning',
-      icon: AlertCircle,
-      iconColor: 'text-yellow-600',
-      message: 'Vendor \'Fresh Meats Co.\' has low stock on 3 popular items',
-      time: '25 minutes ago',
-      bgColor: 'bg-yellow-50'
-    },
-    {
-      id: 3,
-      type: 'warning',
-      icon: AlertCircle,
-      iconColor: 'text-yellow-600',
-      message: 'Customer complaint: Order #37654 arrived cold',
-      time: '1 hour ago',
-      bgColor: 'bg-yellow-50'
-    },
-    {
-      id: 4,
-      type: 'info',
-      icon: Info,
-      iconColor: 'text-blue-600',
-      message: 'System maintenance scheduled for tonight at 2 AM',
-      time: '2 hours ago',
-      bgColor: 'bg-blue-50'
+  const dispatch = useDispatch();
+  const alerts = useSelector(selectAlerts);
+  const loading = useSelector(selectAlertsLoading);
+  const error = useSelector(selectAlertsError);
+
+  useEffect(() => {
+    dispatch(fetchAlerts());
+  }, [dispatch]);
+
+  const getIconColor = (type) => {
+    switch (type) {
+      case 'error': return 'text-red-600';
+      case 'warning': return 'text-yellow-600';
+      case 'info': return 'text-blue-600';
+      default: return 'text-gray-600';
     }
-  ];
+  };
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center" style={{ minHeight: '200px' }}>
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center" style={{ minHeight: '200px' }}>
+        <ErrorMessage error={error} />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
@@ -50,13 +55,13 @@ const AlertsPanel = () => {
       <div className="max-h-80 overflow-y-auto">
         <div className="space-y-1">
           {alerts.map((alert, index) => {
-            const Icon = alert.icon;
+            const Icon = iconMap[alert.type];
             
             return (
               <div key={alert.id} className={`p-3 lg:p-4 ${index > 0 ? 'border-t border-gray-200' : ''}`}>
                 <div className="flex items-start space-x-3">
                   <div className="flex-shrink-0">
-                    <Icon className={`w-4 h-4 lg:w-5 lg:h-5 ${alert.iconColor}`} />
+                    <Icon className={`w-4 h-4 lg:w-5 lg:h-5 ${getIconColor(alert.type)}`} />
                   </div>
                   
                   <div className="flex-1 min-w-0">

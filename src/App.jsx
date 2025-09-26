@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
-import EnhancedStatCard from './components/enhanced/EnhancedStatCard';
+import StatCard from './components/StatCard';
 import PlatformChart from './components/PlatformChart';
 import AlertsPanel from './components/AlertsPanel';
 import QuickActions from './components/QuickActions';
@@ -50,7 +50,7 @@ function App() {
 
               {/* Stats Grid */}
               <div className="mb-6 lg:mb-8">
-                <EnhancedStatCard />
+                <StatCard />
               </div>
 
               {/* Main Content Grid */}

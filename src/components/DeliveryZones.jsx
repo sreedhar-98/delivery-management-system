@@ -1,13 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Save, Plus, MapPin } from 'lucide-react';
-
-const zones = [
-  { name: 'Manhattan Downtown', orders: 156, drivers: 12, routes: 8, color: '#4CAF50' },
-  { name: 'Brooklyn Heights', orders: 98, drivers: 8, routes: 5, color: '#2196F3' },
-  { name: 'Queens Central', orders: 76, drivers: 6, routes: 4, color: '#FFC107' },
-  { name: 'Bronx North', orders: 42, drivers: 4, routes: 3, color: '#9C27B0' },
-  { name: 'Staten Island', orders: 28, drivers: 3, routes: 2, color: '#F44336' },
-];
+import { fetchDeliveryZones, selectDeliveryZones, selectDeliveryZonesLoading, selectDeliveryZonesError } from '../store/slices/deliveryZonesSlice';
+import LoadingSpinner from './common/LoadingSpinner';
+import ErrorMessage from './common/ErrorMessage';
 
 const ZoneMap = () => {
   return (
@@ -71,9 +67,25 @@ const ZoneCard = ({ zone }) => (
 );
 
 const DeliveryZones = () => {
+  const dispatch = useDispatch();
+  const zones = useSelector(selectDeliveryZones);
+  const loading = useSelector(selectDeliveryZonesLoading);
+  const error = useSelector(selectDeliveryZonesError);
+
+  useEffect(() => {
+    dispatch(fetchDeliveryZones());
+  }, [dispatch]);
+
+  if (loading) {
+    return <div className="text-center p-10"><LoadingSpinner /></div>;
+  }
+
+  if (error) {
+    return <div className="text-center p-10"><ErrorMessage error={error} /></div>;
+  }
+
   return (
     <div>
-      {/* Header with title and buttons */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-3 md:mb-0">Delivery Zones</h2>
         <div className="flex items-center space-x-3">
@@ -88,7 +100,6 @@ const DeliveryZones = () => {
         </div>
       </div>
 
-      {/* Main content grid */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
         <div className="xl:col-span-2">
           <ZoneMap />
@@ -98,7 +109,6 @@ const DeliveryZones = () => {
         </div>
       </div>
       
-      {/* Map Controls */}
       <div className="flex items-center space-x-2 md:space-x-4 mb-6 flex-wrap gap-y-2">
         <span className="text-sm font-medium text-gray-700">Map Controls:</span>
         <button className="px-3 py-1.5 text-xs font-medium text-gray-700 bg-gray-100 border border-gray-200 rounded-md hover:bg-gray-200">Draw Zone</button>
@@ -107,7 +117,6 @@ const DeliveryZones = () => {
         <button className="px-3 py-1.5 text-xs font-medium text-gray-700 bg-gray-100 border border-gray-200 rounded-md hover:bg-gray-200">Clear Selection</button>
       </div>
 
-      {/* All Zones List */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="p-4 border-b border-gray-200">
           <h3 className="text-base font-medium text-gray-900">All Zones</h3>
