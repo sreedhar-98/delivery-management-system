@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { 
-  Search, 
-  Filter, 
-  RotateCcw, 
-  Plus, 
-  Download, 
-  Eye, 
-  Edit, 
-  Trash2
-} from 'lucide-react';
+import { Search, ListFilter as Filter, RotateCcw, Plus, Download, Eye, CreditCard as Edit, Trash2 } from 'lucide-react';
 import {
   fetchUsers,
   createUser,
