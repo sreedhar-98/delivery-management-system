@@ -1,0 +1,152 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Smith",
+      "email": "john.smith@example.com",
+      "region": "New York",
+      "status": "active",
+      "orders": 12,
+      "lastOrder": "2023-06-15",
+      "type": "customer"
+    },
+    {
+      "id": 2,
+      "name": "Emily Johnson",
+      "email": "emily.j@example.com",
+      "region": "Los Angeles",
+      "status": "active",
+      "orders": 8,
+      "lastOrder": "2023-06-10",
+      "type": "customer"
+    },
+    {
+      "id": 3,
+      "name": "Robert Chen",
+      "email": "robert.c@example.com",
+      "region": "Chicago",
+      "status": "inactive",
+      "orders": 0,
+      "lastOrder": "N/A",
+      "type": "customer"
+    }
+  ],
+  "vendors": [
+    {
+      "id": 1,
+      "name": "Fresh Groceries Inc.",
+      "email": "contact@freshgroceries.example",
+      "region": "New York",
+      "status": "active",
+      "products": 128,
+      "orders": 523,
+      "category": "Groceries",
+      "rating": 4.8,
+      "description": "Fresh produce and grocery items delivered to your door",
+      "since": "Dec",
+      "address": "500 Market St, New York, NY",
+      "phone": "+1 (555) 111-2222",
+      "compliance": {
+        "hygieneCertification": true,
+        "deliveryReadiness": true,
+        "taxDocuments": true,
+        "qualityCheck": true
+      }
+    },
+    {
+      "id": 2,
+      "name": "Meat Market",
+      "email": "info@meatmarket.example",
+      "region": "Chicago",
+      "status": "active",
+      "products": 64,
+      "orders": 312,
+      "category": "Meat",
+      "rating": 4.6,
+      "description": "Premium quality meats from trusted sources",
+      "since": "Jan",
+      "address": "300 Butcher Ln, Chicago, IL",
+      "phone": "+1 (555) 222-3333",
+      "compliance": {
+        "hygieneCertification": true,
+        "deliveryReadiness": true,
+        "taxDocuments": true,
+        "qualityCheck": false
+      }
+    }
+  ],
+  "deliveryPartners": [
+    {
+      "id": 1,
+      "name": "David Martinez",
+      "email": "david.m@example.com",
+      "vehicle": "Car",
+      "region": "New York",
+      "status": "active",
+      "deliveries": 87,
+      "rating": 4.8,
+      "completion": 96
+    },
+    {
+      "id": 2,
+      "name": "Jessica Lee",
+      "email": "jessica.l@example.com",
+      "vehicle": "Scooter",
+      "region": "Los Angeles",
+      "status": "active",
+      "deliveries": 65,
+      "rating": 4.9,
+      "completion": 98
+    }
+  ],
+  "orders": [
+    {
+      "id": "ORD-1234",
+      "customer": "John Smith",
+      "category": "Groceries",
+      "vendor": "Fresh Groceries",
+      "status": "delivered",
+      "date": "Jun 15, 2023, 2:30 PM",
+      "total": "$45.99"
+    },
+    {
+      "id": "ORD-1235",
+      "customer": "Emily Johnson",
+      "category": "Meat",
+      "vendor": "Meat Market",
+      "status": "in-transit",
+      "date": "Jun 15, 2023, 3:15 PM",
+      "total": "$32.50"
+    }
+  ],
+  "stats": [
+    {
+      "id": 1,
+      "title": "Total Orders",
+      "value": "2,543",
+      "change": "+12%",
+      "icon": "ShoppingCart"
+    },
+    {
+      "id": 2,
+      "title": "Active Users",
+      "value": "42,853",
+      "change": "+8%",
+      "icon": "Users"
+    },
+    {
+      "id": 3,
+      "title": "Revenue",
+      "value": "$38,492",
+      "change": "+7.2%",
+      "icon": "DollarSign"
+    },
+    {
+      "id": 4,
+      "title": "Delivery Success",
+      "value": "98.3%",
+      "change": "+1.2%",
+      "icon": "Truck"
+    }
+  ]
+}

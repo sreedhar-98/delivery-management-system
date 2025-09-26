@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CustomersTable from './CustomersTable';
+import EnhancedCustomersTable from './enhanced/EnhancedCustomersTable';
 import VendorsTable from './VendorsTable';
 import DeliveryPartnersTable from './DeliveryPartnersTable';
 
@@ -9,7 +9,7 @@ const UserManagement = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'customers':
-        return <CustomersTable />;
+        return <EnhancedCustomersTable />;
       case 'vendors':
         return <VendorsTable />;
       case 'delivery-partners':
